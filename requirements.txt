@@ -1,3 +1,6 @@
+Django==1.11.10
+gunicorn==19.7.1
 psycopg2==2.7.4
 python-decouple==3.1
+pytz==2018.3
 whitenoise==3.3.1
