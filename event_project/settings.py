@@ -74,12 +74,19 @@ WSGI_APPLICATION = 'event_project.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/1.11/ref/settings/#databases
+# Load settings based on test (falseValue, trueValue)[test]
+# If DEBUG is set as true in settings.ini (not in version control), Sqlite db will be used
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        'ENGINE': (config('DB_ENGINE'), 'django.db.backends.sqlite3')[DEBUG] ,
+        'NAME': (config('DB_NAME'), os.path.join(BASE_DIR, 'db.sqlite3'))[DEBUG],
+        'USER': (config('DB_USER'), '')[DEBUG],
+        'PASSWORD': (config('DB_PASSWORD'), '')[DEBUG],
+        'HOST': (config('DB_HOST'), '')[DEBUG],
+        'PORT': (config('DB_PORT', cast=int), '0')[DEBUG],
     }
+
 }
 
 
