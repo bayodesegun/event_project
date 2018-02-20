@@ -75,6 +75,13 @@ class EventSubModelTest(TestCase):
 		self.assertIsNotNone(self.sub.subscribed_at)
 		self.assertLessEqual(self.sub.subscribed_at, timezone.now())
 
+	def test_model_data_is_sorted_by_subscribed_at_descending_when_fetched(self):
+		for loop in range(6):
+			EventSub.objects.create(name='User %s' % loop, email = 'user%s@example.com' % loop,)
+		event_subs = EventSub.objects.all()
+		for loop in range(5):
+			self.assertTrue(event_subs[loop].subscribed_at > event_subs[loop+1].subscribed_at)
+
 	def test_model_email_field_is_unique(self):
 		self.sub.name = 'Nerd'
 		self.sub.email = 'nerd@example.com'
