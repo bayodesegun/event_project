@@ -1,6 +1,18 @@
+# development database
 *.sqlite*
-*.zip
+
+# compiled python files
 *.pyc
+
+# private settings file
 *.ini
+
+# compressed files
+*.zip
 *.gz
-logs/
+
+# log files location:
+logs/ 
+
+# static files location:
+assets/ 
