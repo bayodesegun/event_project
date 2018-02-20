@@ -1,5 +1,6 @@
 from django.test import TestCase
 from django.core.exceptions import ValidationError
+from django.db import IntegrityError
 from django.db.models import CharField, EmailField
 
 from event_sub.models import EventSub
@@ -50,9 +51,17 @@ class EventSubModelTest(TestCase):
 			self.sub.save()
 			self.sub.full_clean()
 
-	def test_email_is_required(self):
+	def test_model_string_representation_is_correct(self):
 		self.sub.name = 'Nerd'
 		self.sub.email = 'nerd@example.com'
 		self.sub.save()
 		self.assertEquals(str(self.sub), 'Nerd - nerd@example.com')
-		
+
+	def test_model_email_field_is_unique(self):
+		self.sub.name = 'Nerd'
+		self.sub.email = 'nerd@example.com'
+		self.sub.save()
+
+		with self.assertRaises(IntegrityError):
+			sub2 = EventSub.objects.create(name='Nerd 2', email='nerd@example.com')
+			sub2.save()
