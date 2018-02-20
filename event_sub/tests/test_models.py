@@ -1,7 +1,8 @@
 from django.test import TestCase
 from django.core.exceptions import ValidationError
 from django.db import IntegrityError
-from django.db.models import CharField, EmailField
+from django.db.models import CharField, EmailField, DateTimeField
+from django.utils import timezone
 
 from event_sub.models import EventSub
 
@@ -18,6 +19,16 @@ class EventSubModelTest(TestCase):
 	def test_name_field_exists_with_correct_field_type(self):
 		field = self.sub._meta.get_field('name')
 		self.assertTrue(isinstance(field, CharField))
+
+	def test_subsribed_at_field_exists_with_correct_field_type(self):
+		field = self.sub._meta.get_field('subscribed_at')
+		self.assertTrue(isinstance(field, DateTimeField))
+
+	def test_subsribed_at_field_exists_with_correct_configuration(self):
+		field = self.sub._meta.get_field('subscribed_at')
+		self.assertEquals(field.null, True)
+		self.assertEquals(field.blank, True)
+		self.assertEquals(field.auto_now_add, True)
 
 	def test_name_field_exists_with_correct_label(self):
 		field = self.sub._meta.get_field('name')
@@ -56,6 +67,13 @@ class EventSubModelTest(TestCase):
 		self.sub.email = 'nerd@example.com'
 		self.sub.save()
 		self.assertEquals(str(self.sub), 'Nerd - nerd@example.com')
+
+	def test_model_subscribed_at_is_auto_filled_on_save(self):
+		self.sub.name = 'Nerd'
+		self.sub.email = 'nerd@example.com'
+		self.sub.save()
+		self.assertIsNotNone(self.sub.subscribed_at)
+		self.assertLessEqual(self.sub.subscribed_at, timezone.now())
 
 	def test_model_email_field_is_unique(self):
 		self.sub.name = 'Nerd'
