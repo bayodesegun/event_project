@@ -1,0 +1,87 @@
+{% extends "event_sub/base.html" %}
+
+{% block content %}
+<div class="container">
+	<div id="welcome" class="jumbotron">
+		<p>Welcome to <strong>The ConstructSim Full Stack Engineer Recruitment February 2018 EVENT</strong>. Please supply your name and email below to register for the event.</p>
+	</div>
+
+	<div id="new-reg">
+		<h4>New Registration</h4>
+		<hr>
+		<p>Please enter your name and email and click the submit button.</p>
+		<div class="col-md-6 col-md-offset-3 col-xs-12">
+			{% if messages %}
+			  {% for message in messages %}
+			  	<p class="alert alert-{{ message.tags }}"><strong>{{ message }}</strong></p>
+			  {% endfor %}
+			{% endif %}
+			<form class="form-horizontal" enctype="multipart/form-data" role="form" method="POST" action="">
+		    {% csrf_token %}
+		    
+	    	<div class="form-group {% if form.name.errors %} has-error {% endif %}"> 
+	    	  <div class="col-md-2 col-xs-12">
+		      	<label for="id_name">Name:</label>	
+		      </div>
+		      <div class="col-md-10 col-xs-12">
+		      	<input type="text" class="form-control" name="name" required id="id_name" maxlength="50" 
+		      		value="{% if form.name.value %}{{ form.name.value }}{% endif %}" />
+		      	<span class="helptext">Please enter your name</span>        
+		        {% if form.name.errors %}
+		          <span class="help-block">
+		            <strong>{{ form.name.errors }}</strong>
+		          </span>
+		        {% endif %}	      	
+		      </div>
+		    </div>
+		
+	    	<div class="form-group {% if form.email.errors %} has-error {% endif %}"> 
+	    	  <div class="col-md-2 col-xs-12">
+		      	<label for="id_email">Email:</label>
+		      </div>
+		      <div class="col-md-10 col-xs-12">
+		      	<input type="email" class="form-control" name="email" required id="id_email" maxlength="254" 
+		      		value="{% if form.email.value %} {{ form.email.value }} {% endif %}"/>
+		      	<span class="helptext">Please enter your email</span>       
+		        {% if form.email.errors %}
+	          <span class="help-block">
+	            <strong>{{ form.email.errors }}</strong>
+	          </span>
+	        	{% endif %}    	
+		      </div>
+		    </div>
+		    
+	    	<div class="form-group">
+		      <div class="col-md-4 col-xs-12">
+		      	<input type="submit" class="btn btn-success" value="Submit"/>
+		      </div>
+	    	</div>
+
+		  </form>
+		</div>
+ 	</div>
+
+ 	<div class="clearfix"></div>
+ 	<div id="latest-reg">
+		<h4>Latest Registrations</h4>
+		<hr>
+		<table class="table table-bordered table-responsive">
+			<thead>
+				<th>Name</th>
+				<th>Email</th>
+				<th>Subsribed At</th>
+			</thead>
+			<tbody>
+				{%for sub in event_subs%}
+					<tr>
+						<td>{{ sub.name }}</td>
+						<td>{{ sub.email }}</td>
+						<td>{{ sub.subscribed_at }}</td>
+					</tr>				
+				{% endfor %}
+			</tbody>
+		</table>
+	</div>
+</div>
+
+{% endblock %}

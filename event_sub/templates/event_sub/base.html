@@ -1,0 +1,42 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>  
+  {% block title %}<title>EventSub</title>{% endblock %}
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1"> 
+  <link rel="stylesheet" href="{% static 'event_sub/css/bootstrap.css' %}">
+</head>
+
+<body>
+  {% block navbar %}
+  <nav class="navbar navbar-default">
+    <div class = "container">        
+      <div class="navbar-header">                        
+        <button class="navbar-toggle collapsed" type="button" data-toggle="collapse" data-target="#main-nav" aria-controls="main-nav" aria-expanded="false"> 
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span> 
+        <span class="icon-bar"></span> 
+        <span class="icon-bar"></span> 
+        </button>
+       <a class="navbar-brand" href="#">EventSub</a>         
+      </div>                
+      <div id="main-nav" class="navbar-collapse collapse" aria-expanded="false">        
+        <ul class="nav navbar-nav">
+          <!-- Other navigation buttons coming soon -->
+          <li role=""><a href="#" id="home">Home</a></li>
+        </ul>
+      </div>
+    </div>      
+  </nav>
+  {% endblock %}
+
+  {% block content %}
+  <div class="container">
+
+  </div>
+  {% endblock %}
+  <script type="text/javascript" src="{% static 'event_sub/js/jquery.min.js' %}"></script>
+  <script type="text/javascript" src="{% static 'event_sub/js/bootstrap.min.js' %}"></script>
+</body>
+</html>
